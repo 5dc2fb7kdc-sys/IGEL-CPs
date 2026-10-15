@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Adriana ❤️</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle, #401044, #100018);
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  overflow: hidden;
+}
+
+h1 {
+  color: #ff9bd5;
+  font-size: 2rem;
+  text-shadow: 0 0 15px #ff36a7;
+}
+
+.heart {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background: #ff176b;
+  transform: rotate(-45deg);
+  animation: latir 1s infinite;
+  box-shadow: 0 0 35px #ff176b;
+  margin: 55px 0;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: #ff176b;
+  border-radius: 50%;
+}
+
+.heart::before { top: -60px; left: 0; }
+.heart::after { top: 0; left: 60px; }
+
+@keyframes latir {
+  0%, 100% { transform: rotate(-45deg) scale(1); }
+  50% { transform: rotate(-45deg) scale(1.2); }
+}
+
+p {
+  font-size: 1.15rem;
+  max-width: 320px;
+  line-height: 1.7;
+  padding: 0 15px;
+}
+
+button {
+  border: none;
+  border-radius: 25px;
+  padding: 14px 24px;
+  background: #ff4da6;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+#mensaje {
+  color: #ffc5e4;
+  min-height: 35px;
+}
+</style>
+</head>
+<body>
+
+<h1>Para Adriana 💗</h1>
+
+<div class="heart"></div>
+
+<p>Eres una personita muy especial. Que nunca te falten motivos para sonreír. 🌹✨</p>
+
+<button onclick="mostrarMensaje()">Toca aquí 💌</button>
+
+<p id="mensaje"></p>
+
+<script>
+function mostrarMensaje() {
+  document.getElementById("mensaje").textContent =
+    "Adriana, te envío un corazón lleno de cariño. ❤️🌷💖";
+}
+</script>
+
+</body>
+</html>
