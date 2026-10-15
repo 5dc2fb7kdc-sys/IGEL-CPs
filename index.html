@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flores para Adriana 🌹</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0; overflow: hidden; height: 100vh;
+  background: radial-gradient(ellipse, #390b3d, #08000e 75%);
+  color: white; font-family: Georgia, serif;
+}
+.mensaje {
+  position: absolute; top: 6%; width: 100%;
+  text-align: center; padding: 0 12px; z-index: 3;
+}
+h1 {
+  color: #ff78ce; font-size: clamp(32px, 8vw, 56px);
+  text-shadow: 0 0 12px #ff168c, 0 0 30px #ff168c;
+  animation: brillo 2s infinite alternate;
+}
+p { color: #ffe0f4; font-size: clamp(15px, 4vw, 21px); }
+button {
+  padding: 12px 20px; border: 1px solid #ffb1e3;
+  border-radius: 30px; color: white; background: #c91b88;
+  font-size: 16px; cursor: pointer;
+}
+canvas { position: fixed; inset: 0; width: 100%; height: 100%; }
+#efectos { position: fixed; inset: 0; pointer-events: none; }
+.corazon {
+  position: absolute; bottom: -40px;
+  animation: subir 5s linear forwards;
+}
+@keyframes brillo {
+  to { text-shadow: 0 0 30px #ff168c, 0 0 45px #ff69b4; }
+}
+@keyframes subir {
+  to { transform: translateY(-110vh); opacity: 0; }
+}
+</style>
+</head>
+<body>
+<div class="mensaje">
+  <h1>Para Adriana 🌹</h1>
+  <p>Estas flores son para ti ❤️<br>
+  Que nunca te falten motivos para sonreír ✨</p>
+  <button onclick="lluvia()">Enviar corazones 💖</button>
+</div>
+<canvas id="jardin"></canvas>
+<div id="efectos"></div>
+<script>
+const c = document.getElementById("jardin");
+const ctx = c.getContext("2d");
+const efectos = document.getElementById("efectos");
+let w, h, t = 0;
+
+const flores = [
+ [.12,.55,18,"#ff4da6"], [.30,.68,15,"#d66bff"],
+ [.50,.54,24,"#ff258e"], [.70,.67,18,"#ff80bd"],
+ [.88,.56,21,"#db54ff"], [.22,.82,17,"#ff6cba"],
+ [.77,.83,20,"#ff348d"], [.42,.79,15,"#c45cff"],
+ [.61,.84,16,"#ff9bd5"]
+];
+
+function ajustar() {
+ const d = window.devicePixelRatio || 1;
+ w = innerWidth; h = innerHeight;
+ c.width = w*d; c.height = h*d;
+ ctx.setTransform(d,0,0,d,0,0);
+}
+function flor(f,n) {
+ const x=f[0]*w, y=f[1]*h, r=Math.min(f[2],w*.055);
+ ctx.strokeStyle="#35d66c"; ctx.lineWidth=3;
+ ctx.beginPath(); ctx.moveTo(x,h);
+ ctx.quadraticCurveTo(x-12,(h+y)/2,x,y); ctx.stroke();
+ ctx.fillStyle="#26b85a";
+ ctx.beginPath(); ctx.ellipse(x-9,y+38,6,14,-.8,0,7); ctx.fill();
+ for(let i=0;i<8;i++) {
+  ctx.save(); ctx.translate(x,y);
+  ctx.rotate(i*Math.PI/4+Math.sin(t*.025+n)*.12);
+  ctx.beginPath(); ctx.ellipse(0,-r*.75,r*.45,r,0,0,7);
+  ctx.fillStyle=f[3]; ctx.shadowColor=f[3]; ctx.shadowBlur=15;
+  ctx.fill(); ctx.restore();
+ }
+ ctx.beginPath(); ctx.arc(x,y,r*.28,0,7);
+ ctx.fillStyle="#ffe66d"; ctx.fill(); ctx.shadowBlur=0;
+}
+function animar() {
+ t++; ctx.clearRect(0,0,w,h);
+ for(let i=0;i<65;i++) {
+  ctx.globalAlpha=.3+Math.abs(Math.sin(t*.035+i))*.7;
+  ctx.fillStyle="#ffd9f3";
+  ctx.beginPath(); ctx.arc(i*137.5%w,i*83.7%h,1.4,0,7); ctx.fill();
+ }
+ ctx.globalAlpha=1;
+ flores.forEach(flor);
+ requestAnimationFrame(animar);
+}
+function corazon() {
+ const e=document.createElement("span");
+ e.className="corazon";
+ e.textContent=["💖","💕","❤️","💗","✨"][Math.floor(Math.random()*5)];
+ e.style.left=Math.random()*95+"vw";
+ e.style.fontSize=20+Math.random()*20+"px";
+ e.style.animationDuration=4+Math.random()*3+"s";
+ efectos.appendChild(e);
+ setTimeout(()=>e.remove(),7500);
+}
+function lluvia() {
+ for(let i=0;i<25;i++) setTimeout(corazon,i*100);
+}
+setInterval(corazon,650);
+window.addEventListener("resize",ajustar);
+ajustar(); animar();
+</script>
+</body>
+</html>
